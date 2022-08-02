@@ -24,4 +24,13 @@ public class CategoryDao {
 		return stmt.query("select * from subcategory where categoryid=? and userid=?",new BeanPropertyRowMapper<SubcategoryBean>(SubcategoryBean.class),new Object[] {categoryid,userid});
 	}
 
+	public int addcategory(CategoryBean category) {
+		return stmt.update("insert into category (categoryname,userid) values(?,?)",category.getCategoryname(),category.getUserid());
+	}
+
+	public int addsubcategory(SubcategoryBean subcategory) {
+		return stmt.update("insert into subcategory (subcategoryname,categoryid,userid) values(?,?,?)",subcategory.getSubcategoryname(),subcategory.getCategoryid(),subcategory.getUserid());
+
+	}
+
 }

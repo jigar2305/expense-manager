@@ -16,6 +16,7 @@ import com.bean.CreditcardBean;
 import com.bean.DebitcardBean;
 import com.bean.ExpenseBean;
 import com.bean.PaytmBean;
+import com.bean.SubcategoryBean;
 import com.bean.UserBean;
 import com.dao.CategoryDao;
 import com.dao.ListDao;
@@ -45,7 +46,8 @@ public class ExpenseController {
 		
 		
 		
-		
+		SubcategoryBean subcategory = new SubcategoryBean();
+		model.addAttribute("subcategory",subcategory);
 		CategoryBean category1 = new CategoryBean();
 		model.addAttribute("category1",category1);
 		

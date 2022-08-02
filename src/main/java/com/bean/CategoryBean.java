@@ -1,7 +1,10 @@
 package com.bean;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 public class CategoryBean {
 	private Integer categoryid;
+	@NotBlank(message = "please enter category")
 	private String categoryname;
 	private Integer userid;
 	public Integer getCategoryid() {
