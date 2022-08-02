@@ -1,7 +1,5 @@
 package com.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.bean.BalanceBean;
-import com.bean.FinanceBean;
 import com.bean.UserBean;
 import com.dao.FinanceDao;
 
@@ -23,40 +20,8 @@ public class FinanceController {
 	@Autowired
 	FinanceDao financeDao;
 
-	@GetMapping("/finance")
-	public String finance(FinanceBean finance, Model model) {
-		model.addAttribute("finance", finance);
-		return "finance";
-	}
-
-	@PostMapping("/finance")
-	public String savefinance(@ModelAttribute("finance") @Valid FinanceBean finance, BindingResult result,
-			HttpSession session, Model model) {
-		int userid = ((UserBean) session.getAttribute("user")).getUserid();
-		finance.setUserid(userid);
-		if (result.hasErrors()) {
-			model.addAttribute("finance", finance);
-			model.addAttribute("msg", "somethig went wrong");
-			return "finance";
-		} else {
-
-			int record = financeDao.addfinance(finance);
-			if (record == 0) {
-				model.addAttribute("finance", finance);
-				model.addAttribute("msg", "somethig went wrong");
-				return "finance";
-			} else {
-				model.addAttribute("finance", finance);
-				return "home";
-			}
-		}
-	}
-
 	@GetMapping("/balance")
-	public String balance(BalanceBean balance, Model model, HttpSession session) {
-		int userid = ((UserBean) session.getAttribute("user")).getUserid();
-		List<FinanceBean> finance = financeDao.getfinance(userid);
-		model.addAttribute("finance", finance);
+	public String balance(BalanceBean balance, Model model) {
 		model.addAttribute("balance", balance);
 		return "balance";
 	}
@@ -64,7 +29,10 @@ public class FinanceController {
 	@PostMapping("/balance")
 	public String savebalance(@ModelAttribute("balance") @Valid BalanceBean balance, BindingResult result,
 			HttpSession session, Model model) {
-		int userid = ((UserBean) session.getAttribute("user")).getUserid();
+		UserBean userBean = (UserBean) session.getAttribute("user");
+		System.out.println(userBean);
+		int userid = userBean.getUserid();
+		System.out.println(userid);
 		balance.setUserid(userid);
 		if (result.hasErrors()) {
 			model.addAttribute("balance", balance);
@@ -72,20 +40,17 @@ public class FinanceController {
 			return "balance";
 		} else {
 			String type = balance.getFinancetype();
-			balance.setUserid(userid);
-
+			int record = 0;
 			if (type.equals("cash")) {
-				balance.setCardname(null);
-				balance.setCardnumber(null);
-				balance.setUpiid(null);
+				record = financeDao.addcash(balance);
 			} else if (type.equals("Paytm")) {
-				balance.setCardname(null);
-				balance.setCardnumber(null);
-			} else {
-				balance.setUpiid(null);
+				record = financeDao.addpaytm(balance);
+			} else if (type.equals("Creditcard")) {
+				record =financeDao.addcreditcard(balance);
+			} else if (type.equals("Debitcard")) {
+				record =financeDao.adddebitcard(balance);
 			}
 
-			int record = financeDao.addbalance(balance);
 			if (record == 0) {
 				model.addAttribute("balance", balance);
 				model.addAttribute("msg", "somethig went wrong");
@@ -94,8 +59,6 @@ public class FinanceController {
 				model.addAttribute("balance", balance);
 				return "home";
 			}
-
 		}
 	}
-
 }

@@ -13,44 +13,54 @@
 	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
 	crossorigin="anonymous">
 <script type="text/javascript">
+	function cardnumber11(cardnumber) {
+		let type = document.getElementById("type").value
+		if (type == "Debitcard" || type == "Creditcard") {
+			var cardno = /^(?:5[1-5][0-9]{14})$/;
+			if (cardnumber.value.match(cardno)) {
+				return true;
+			} else {
+				alert("Not a valid Mastercard number!");
+				return false;
+			}
+		}
+
+	}
 	function hide() {
 		let type = document.getElementById("type").value
 		let cardname = document.getElementById("cardname")
 		let cardnumber = document.getElementById("cardnumber")
 		let upiid = document.getElementById("upiid")
 		let balance = document.getElementById("balance")
-		cardname.style.display = "visible";
-		cardnumber.style.display = "visible";
-		upiid.style.display = "visible";
 
 		if (type == "cash") {
-			cardname.style.display = "none";
-			cardnumber.style.display = "none";
-			upiid.style.display = "none";
+			cardname.setAttribute("style", "display:none");
+			cardnumber.setAttribute("style", "display:none");
+			upiid.setAttribute("style", "display:none");
 
 		}
 		if (type == "Paytm") {
-			cardname.style.display = "none";
-			cardnumber.style.display = "none";
-			upiid.style.display = "visible";
-
+			cardname.setAttribute("style", "display:none");
+			cardnumber.setAttribute("style", "display:none");
+			upiid.setAttribute("style", "display:visible");
 		}
 		if (type == "Debitcard") {
-			cardname.style.display = "visible";
-			cardnumber.style.display = "visible";
-			upiid.style.display = "visible";
-
+			cardname.setAttribute("style", "display:visible");
+			cardnumber.setAttribute("style", "display:visible");
+			upiid.setAttribute("style", "display:none");
 		}
-		if (type == "Creaditcard") {
-			cardname.style.display = "visible";
-			cardnumber.style.display = "visible";
-			upiid.style.display = "visible";
+		if (type == "Creditcard") {
+			cardname.setAttribute("style", "display:visible");
+			cardnumber.setAttribute("style", "display:visible");
+			upiid.setAttribute("style", "display:none");
 		}
 
 	}
 </script>
 </head>
 <body>
+	<jsp:include page="navcustomer.jsp"></jsp:include>
+
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4"></div>
@@ -63,24 +73,24 @@
 						<label>payment</label>
 						<f:select path="financetype" class="form-control" id="type"
 							onclick="hide()">
-							<f:option value="Creaditcard">CreditCard</f:option>
+							<f:option value="Creditcard">CreditCard</f:option>
 							<f:option value="cash">Cash</f:option>
 							<f:option value="Debitcard">DebitCard</f:option>
-							<f:option value="Paytm">Paytm</f:option>
+							<f:option value="Paytm">PayTm</f:option>
 						</f:select>
 					</div>
 					<div class="form-group" id="cardname">
-
 						<label>Card Name</label>
 						<f:input class="form-control" path="cardname" />
 						<f:errors path="cardname"></f:errors>
 					</div>
 					<div class="form-group" id="cardnumber">
 						<label>card number</label>
-						<f:input class="form-control" path="cardnumber" />
+						<f:input class="form-control" path="cardnumber" id="cardnumber1"
+							onblur="cardnumber11(cardnumber)" />
 						<f:errors path="cardnumber"></f:errors>
 					</div>
-					<div class="form-group" id="upiid">
+					<div class="form-group" id="upiid" style="display: none;">
 						<label>UPI</label>
 						<f:input class="form-control" path="upiid" />
 						<f:errors path="upiid"></f:errors>

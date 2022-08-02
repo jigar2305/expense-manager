@@ -1,38 +1,39 @@
 package com.dao;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.bean.BalanceBean;
-import com.bean.FinanceBean;
 
 @Repository
 public class FinanceDao {
 	@Autowired
 	JdbcTemplate stmt;
 
-	public int addfinance(@Valid FinanceBean finance) {
-		return stmt.update("insert into finance(userid,financetype) values(?,?)", finance.getUserid(),
-				finance.getFinancetype());
+	public int addcash(@Valid BalanceBean balance) {
+		return stmt.update("INSERT INTO public.cash(cash, userid)VALUES (?, ?)", balance.getBalance(),
+				balance.getUserid());
+
 	}
 
-	public List<FinanceBean> getfinance(int userid) {
-		return stmt.query("select financetype from finance where userid=?",
-				new BeanPropertyRowMapper<FinanceBean>(FinanceBean.class), new Object[] { userid });
+	public int addpaytm(@Valid BalanceBean balance) {
+		return stmt.update("INSERT INTO public.paytm(upiid, money, userid)VALUES (?, ?, ?)", balance.getUpiid(),
+				 balance.getBalance(),balance.getUserid());
+
 	}
 
-	public int addbalance(@Valid BalanceBean balance) {
+	public int addcreditcard(@Valid BalanceBean balance) {
+		return stmt.update("INSERT INTO public.creditcard( cardname, cardnumber, \"limit\", userid)VALUES (?, ?, ?, ?)",
+				balance.getCardname(), balance.getCardnumber(), balance.getBalance(), balance.getUserid());
 
-		return stmt.update(
-				"INSERT INTO balance (cardnumber, balance, cardname, upiid, financetype, userid) VALUES (?, ?, ?, ?, ?, ?)",
-				balance.getCardnumber(), balance.getBalance(), balance.getCardname(), balance.getUpiid(),
-				balance.getFinancetype(), balance.getUserid());
+	}
+
+	public int adddebitcard(@Valid BalanceBean balance) {
+		return stmt.update("INSERT INTO public.debitcard(cardname, cardnumber, balance, userid)VALUES (?,?, ?, ?)",
+				balance.getCardname(), balance.getCardnumber(), balance.getBalance(), balance.getUserid());
 
 	}
 
