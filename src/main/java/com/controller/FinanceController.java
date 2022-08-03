@@ -42,13 +42,37 @@ public class FinanceController {
 			String type = balance.getFinancetype();
 			int record = 0;
 			if (type.equals("cash")) {
-				record = financeDao.addcash(balance);
+				if (financeDao.checkcash(userid) != null) {
+					int cash = financeDao.checkcash(userid).getCash();
+					balance.setBalance(cash + balance.getBalance());
+					record = financeDao.updatecash(balance);
+				} else {
+					record = financeDao.addcash(balance);
+				}
 			} else if (type.equals("Paytm")) {
-				record = financeDao.addpaytm(balance);
+				if (financeDao.checkpaytm(balance) == 1) {
+					model.addAttribute("balance", balance);
+					model.addAttribute("paytmerror", "upiid alredy exist");
+					return "balance";
+				} else {
+					record = financeDao.addpaytm(balance);
+				}
 			} else if (type.equals("Creditcard")) {
-				record =financeDao.addcreditcard(balance);
+				if (financeDao.checkcreditcard(balance) == 1) {
+					model.addAttribute("balance", balance);
+					model.addAttribute("creditcarderror", "This card is  alredy registered");
+					return "balance";
+				} else {
+					record = financeDao.addcreditcard(balance);
+				}
 			} else if (type.equals("Debitcard")) {
-				record =financeDao.adddebitcard(balance);
+				if (financeDao.checkdebitcard(balance) == 1) {
+					model.addAttribute("balance", balance);
+					model.addAttribute("debitcarderror", "This card is  alredy registered");
+					return "balance";
+				} else {
+					record = financeDao.adddebitcard(balance);
+				}
 			}
 
 			if (record == 0) {

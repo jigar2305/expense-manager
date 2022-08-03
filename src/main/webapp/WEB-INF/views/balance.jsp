@@ -32,27 +32,46 @@
 		let cardnumber = document.getElementById("cardnumber")
 		let upiid = document.getElementById("upiid")
 		let balance = document.getElementById("balance")
+		let cardname1 = document.getElementById("cardname1")
+		let cardnumber1 = document.getElementById("cardnumber1")
+		let upiid1 = document.getElementById("upiid1")
+		
 
 		if (type == "cash") {
 			cardname.setAttribute("style", "display:none");
 			cardnumber.setAttribute("style", "display:none");
 			upiid.setAttribute("style", "display:none");
-
+			cardnumber1.required = false;
+			cardname1.required = false;
+			upiid1.required = false;
+			
 		}
 		if (type == "Paytm") {
 			cardname.setAttribute("style", "display:none");
 			cardnumber.setAttribute("style", "display:none");
 			upiid.setAttribute("style", "display:visible");
+			upiid1.required = true;
+			cardnumber1.required = false;
+			cardname1.required = false;
+			
 		}
 		if (type == "Debitcard") {
 			cardname.setAttribute("style", "display:visible");
 			cardnumber.setAttribute("style", "display:visible");
 			upiid.setAttribute("style", "display:none");
+			cardnumber1.required = true;
+			cardname1.required = true;
+			upiid1.required = false;
+
 		}
 		if (type == "Creditcard") {
 			cardname.setAttribute("style", "display:visible");
 			cardnumber.setAttribute("style", "display:visible");
 			upiid.setAttribute("style", "display:none");
+			cardnumber1.required = true;
+			cardname1.required = true;
+			upiid1.required = false;
+
 		}
 
 	}
@@ -81,23 +100,23 @@
 					</div>
 					<div class="form-group" id="cardname">
 						<label>Card Name</label>
-						<f:input class="form-control" path="cardname" />
+						<f:input class="form-control" path="cardname" id="cardnumber1"/>
 						<f:errors path="cardname"></f:errors>
 					</div>
 					<div class="form-group" id="cardnumber">
 						<label>card number</label>
 						<f:input class="form-control" path="cardnumber" id="cardnumber1"
-							onblur="cardnumber11(cardnumber)" />
+							onblur="cardnumber11(cardnumber)" /><span>${creditcarderror}${debitcarderror}</span>
 						<f:errors path="cardnumber"></f:errors>
 					</div>
 					<div class="form-group" id="upiid" style="display: none;">
 						<label>UPI</label>
-						<f:input class="form-control" path="upiid" />
+						<f:input class="form-control" path="upiid" id="upiid1"/><span>${paytmerror}</span>
 						<f:errors path="upiid"></f:errors>
 					</div>
 					<div class="form-group" id="balance">
 						<label>balance</label>
-						<f:input class="form-control" path="balance" />
+						<f:input class="form-control" path="balance" id="balance"/>
 						<f:errors path="balance"></f:errors>
 					</div>
 					<input type="submit" class="btn btn-primary" value="add">

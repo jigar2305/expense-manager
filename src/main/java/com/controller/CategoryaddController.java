@@ -35,6 +35,5 @@ public class CategoryaddController {
 		subcategory.setUserid(userid);
 		categoryDao.addsubcategory(subcategory);
 		return "redirect:/expense";
-		
 	}
 }

@@ -16,10 +16,8 @@ public class CategoryDao {
 	JdbcTemplate stmt;
 
 	public List<CategoryBean> listcategory(int userid) {
-		return stmt.query("select * from category where userid=?",new BeanPropertyRowMapper<CategoryBean>(CategoryBean.class),new Object[] {userid});
-		
+		return stmt.query("select * from category where userid=?",new BeanPropertyRowMapper<CategoryBean>(CategoryBean.class),new Object[] {userid});	
 	}
-
 	public List<SubcategoryBean> listsubcategory(int categoryid,int userid) {
 		return stmt.query("select * from subcategory where categoryid=? and userid=?",new BeanPropertyRowMapper<SubcategoryBean>(SubcategoryBean.class),new Object[] {categoryid,userid});
 	}
