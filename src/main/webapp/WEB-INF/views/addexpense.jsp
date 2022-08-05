@@ -264,7 +264,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 								let hidecategory = document.getElementById("hidecategory");
 								hidecategory.setAttribute("style","display:visible");
 								let categoryid = document.getElementById("category").value;
-								let url = "http://localhost:8980/subcategory/"+ categoryid;
+								let url = "https://expense-tracker2305.herokuapp.com/subcategory/"+ categoryid;
 								$.get(url).done(function (data) {
 											let subcategory = $("#subcategoryid");
 											subcategory.empty();

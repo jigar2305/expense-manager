@@ -92,7 +92,7 @@ public class FinanceController {
 				return "balance";
 			} else {
 				model.addAttribute("balance", balance);
-				return "home";
+				return "redirect:/home";
 			}
 		}
 	}
