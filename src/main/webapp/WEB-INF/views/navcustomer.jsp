@@ -13,10 +13,13 @@
         <a class="nav-link" href="home">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="finance">Add payment Method</a>
+        <a class="nav-link" href="listexpense">expenses</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="balance">balance</a>
+        <a class="nav-link" href="balance">accounts</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="listaccount">list account</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="expense">expense</a>
@@ -27,10 +30,6 @@
       </li>
     </ul>
     
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
   </div>
 </nav>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

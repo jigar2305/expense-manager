@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -10,15 +12,25 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bean.BalanceBean;
+import com.bean.CashBean;
+import com.bean.CreditcardBean;
+import com.bean.DebitcardBean;
+import com.bean.ExpenseBean;
+import com.bean.PaytmBean;
 import com.bean.UserBean;
 import com.dao.FinanceDao;
+import com.dao.ListDao;
 
 @Controller
 public class FinanceController {
 	@Autowired
 	FinanceDao financeDao;
+	
+	@Autowired
+	ListDao dao;
 
 	@GetMapping("/balance")
 	public String balance(BalanceBean balance, Model model) {
@@ -85,4 +97,29 @@ public class FinanceController {
 			}
 		}
 	}
+	
+	
+	@GetMapping("/listaccount")
+	public String listaccount(ExpenseBean expense, Model model, HttpSession session) {
+		int userid = ((UserBean) session.getAttribute("user")).getUserid();
+		List<CashBean> cash = dao.getcash(userid);
+		model.addAttribute("cash", cash);
+		List<PaytmBean> paytm = dao.getpaytm(userid);
+		model.addAttribute("paytm", paytm);
+		List<CreditcardBean> cc = dao.getcreditcard(userid);
+		model.addAttribute("creditcard", cc);
+		List<DebitcardBean> dc = dao.getdebitcard(userid);
+		model.addAttribute("debitcard", dc);
+		return "Listaccount";
+	}
+	
+	
+	@PostMapping("/upadtecredit")
+	public String updatecredit(@Valid CreditcardBean creditcardBean) {
+		
+		
+		return "redirect:/listaccount";
+		
+	}
+	
 }

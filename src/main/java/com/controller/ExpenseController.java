@@ -21,6 +21,7 @@ import com.bean.CategoryBean;
 import com.bean.CreditcardBean;
 import com.bean.DebitcardBean;
 import com.bean.ExpenseBean;
+import com.bean.ListexpenseBean;
 import com.bean.PaytmBean;
 import com.bean.SubcategoryBean;
 import com.bean.UserBean;
@@ -78,7 +79,7 @@ public class ExpenseController {
 		int id = expense.getPaymentid();
 		int error = 0;
 			if (mode.equals("cash")) {
-				int money = dao.getcash(userid).get(1).getCash();
+				int money = dao.getcash(userid).get(0).getCash();
 				if (money >= spend) {
 					int balance = money - spend;
 					error=dao.updatecash(userid, balance);
@@ -127,6 +128,19 @@ public class ExpenseController {
 			}
 
 
-		return "redirect:/expense";
+		return "redirect:/listexpense";
 	}
+
+	@GetMapping("/listexpense")
+	public String listexpense(HttpSession session,Model model) {
+		int userid = ((UserBean) session.getAttribute("user")).getUserid();
+
+		List<ListexpenseBean> espenses = expenseDao.expenselist(userid);
+		model.addAttribute("espenses", espenses);
+		return "listexpense";
+				
+	}
+	
+	
+
 }

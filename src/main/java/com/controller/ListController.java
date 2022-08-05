@@ -35,7 +35,7 @@ public class ListController {
 	@GetMapping("/creditcard")
 	public List<CreditcardBean> creditcard(HttpSession session){
 		int userid = ((UserBean) session.getAttribute("user")).getUserid();
-		return listDao.getcreditcard(userid);
+		return listDao.getcreditcard(userid); 
 	}
 	@GetMapping("/debitcard")
 	public List<DebitcardBean> debitCash(HttpSession session){

@@ -2,7 +2,6 @@ package com.dao;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -37,11 +36,10 @@ public class ListDao {
 		return stmt.query("select * from debitcard where userid=?",
 				new BeanPropertyRowMapper<DebitcardBean>(DebitcardBean.class), new Object[] { userid });
 	}
-	
-	
+
 	public PaytmBean checkpaytm(int paymentid) {
-		return stmt.queryForObject("select * from paytm where paytmid=?", new BeanPropertyRowMapper<PaytmBean>(PaytmBean.class),
-				new Object[] { paymentid });
+		return stmt.queryForObject("select * from paytm where paytmid=?",
+				new BeanPropertyRowMapper<PaytmBean>(PaytmBean.class), new Object[] { paymentid });
 	}
 
 	public CreditcardBean checkcreditcard(int paymentid) {
@@ -53,20 +51,22 @@ public class ListDao {
 		return stmt.queryForObject("select * from debitcard where debitcardid=?",
 				new BeanPropertyRowMapper<DebitcardBean>(DebitcardBean.class), new Object[] { paymentid });
 	}
-	
-	
-	public int updatecash(int userid,int balance) {
-		return stmt.update("update cash set cash=? where userid= ?", balance,userid);
-	}
-	public int updatepaytm(int id, int balance) {
-		return stmt.update("update paytm set money=? where paytmid= ?", balance,id);
-	}
-	public int updatecredit(int id, int balance) {
-		return stmt.update("update creditcard set \"limit\"=? where creditcardid= ?", balance,id);
-		
-	}public int updatedebit(int id, int balance) {
-		return stmt.update("update debitcard set balance=? where debitcardid= ?", balance,id);
-		
+
+	public int updatecash(int userid, int balance) {
+		return stmt.update("update cash set cash=? where userid= ?", balance, userid);
 	}
 
+	public int updatepaytm(int id, int balance) {
+		return stmt.update("update paytm set money=? where paytmid= ?", balance, id);
+	}
+
+	public int updatecredit(int id, int balance) {
+		return stmt.update("update creditcard set \"limit\"=? where creditcardid= ?", balance, id);
+	}
+
+	public int updatedebit(int id, int balance) {
+		return stmt.update("update debitcard set balance=? where debitcardid= ?", balance, id);
+	}
+
+	
 }

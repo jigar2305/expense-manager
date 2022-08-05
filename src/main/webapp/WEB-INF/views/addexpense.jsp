@@ -136,7 +136,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
 					<div id="hidecategory" style="display: none;">
 						<label>sub category</label><br>
 						<f:select path="subcategoryid" >
-							<f:option value="${i.subcategoryid}">${i.subcategoryname}</f:option>
 						</f:select>
 						<span>
 							<button type="button" onclick="openForm1()">add</button>
@@ -163,19 +162,19 @@ body {font-family: Arial, Helvetica, sans-serif;}
 							</optgroup>
 							<optgroup label="Paytm" id="paytm" style="display: none;">
 								<c:forEach items="${paytm}" var="i">
-									<option value="${i.paytmid}">${i.upiid}</option>
+									<option value="${i.paytmid}">${i.upiid} || ${i.money}</option>
 								</c:forEach>
 							</optgroup>
 							<optgroup label="Creditcard" id="credit" style="display: none;">
 								<c:forEach items="${creditcard}" var="i">
-									<option value="${i.creditcardid}">${i.cardname}||
-										${i.cardnumber}</option>
+									<option value="${i.creditcardid}">${i.cardname} ||
+										  ${i.cardnumber} || ${i.limit}</option>
 								</c:forEach>
 							</optgroup>
 							<optgroup label="Debitcard" id="debit" style="display: none;">
 								<c:forEach items="${debitcard}" var="i">
-									<option value="${i.debitcardid}">${i.cardname}||
-										${i.cardnumber}</option>
+									<option value="${i.debitcardid}">${i.cardname} ||
+										 ${i.cardnumber} || ${i.balance}</option>
 								</c:forEach>
 							</optgroup>
 

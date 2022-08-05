@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -12,13 +14,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.bean.LoginBean;
+import com.bean.MychartBean;
 import com.bean.UserBean;
+import com.dao.ExpenseDao;
 import com.dao.UserDao;
 
 @Controller
 public class SessionController {
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	ExpenseDao dao;
 	
 	@GetMapping("/signup")
 	public String signup(UserBean user,Model model) {
@@ -35,7 +42,7 @@ public class SessionController {
 				int record = userDao.adduser(user);
 				if(record==1) {				
 					model.addAttribute("msg", "signup successfully.....");
-					return "redirct:/login";
+					return "redirect:/login";
 				}else {
 					model.addAttribute("user", user);
 					model.addAttribute("msg","something went wrong");
@@ -66,14 +73,18 @@ public class SessionController {
 				return "login";
 			} else {
 				session.setAttribute("user", user);
-				return "home";
+				return "redirect:/home";
 
 			}
 		}
 	}
 	
 	@GetMapping("/home")
-	public String home() {
+	public String home(HttpSession session,Model model) {
+		int userid = ((UserBean) session.getAttribute("user")).getUserid();
+		List<MychartBean> mychartBeans =  dao.listchart(userid);
+		System.out.println(mychartBeans+"qwertyuiop[]");
+		model.addAttribute("mycharts",mychartBeans);
 		return"home";
 	}
 	@GetMapping("/navcustomer")
