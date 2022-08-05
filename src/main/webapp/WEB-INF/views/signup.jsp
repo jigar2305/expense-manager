@@ -71,6 +71,7 @@
 					</div>
 					<input type="submit" class="btn btn-primary" value="Signup">
 				</f:form>
+					<a href="login">login</a>
 
 			</div>
 		</div>

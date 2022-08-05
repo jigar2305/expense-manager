@@ -36,6 +36,7 @@
 
 						<input type="submit" class="btn btn-primary pr-3 pl-3" value="login">
 					</div>
+					<a href="signup">don't have account,please SignUp</a>
 
 				</f:form>
 			</div>
