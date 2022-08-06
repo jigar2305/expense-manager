@@ -1,5 +1,8 @@
 package com.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,11 +15,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bean.LoginBean;
 import com.bean.MychartBean;
+import com.bean.ProfileBean;
 import com.bean.UserBean;
 import com.dao.ExpenseDao;
+import com.dao.ProfileDao;
 import com.dao.UserDao;
 
 @Controller
@@ -26,6 +33,9 @@ public class SessionController {
 	
 	@Autowired
 	ExpenseDao dao;
+	
+	@Autowired
+	ProfileDao profileDao;
 	
 	@GetMapping("/signup")
 	public String signup(UserBean user,Model model) {
@@ -73,7 +83,18 @@ public class SessionController {
 				return "login";
 			} else {
 				session.setAttribute("user", user);
-				return "redirect:/home";
+				if(user.getUsertype().equals("customer")) {	
+					if(user.getActive()) {						
+						return "redirect:/home";
+					}else {
+						model.addAttribute("msg", "your account is deactive please contact admin");
+
+						return "login";
+
+					}
+				}else {
+					return "redirect:/admin";
+				}
 
 			}
 		}
@@ -83,12 +104,48 @@ public class SessionController {
 	public String home(HttpSession session,Model model) {
 		int userid = ((UserBean) session.getAttribute("user")).getUserid();
 		List<MychartBean> mychartBeans =  dao.listchart(userid);
-		System.out.println(mychartBeans+"qwertyuiop[]");
 		model.addAttribute("mycharts",mychartBeans);
 		return"home";
 	}
+	@GetMapping("/profile")
+	public String profile() {
+		return"profile";
+	}
+	@PostMapping("/profile")
+	public String saveimage(@RequestParam("image") MultipartFile file, HttpSession session){
+		int userid = ((UserBean) session.getAttribute("user")).getUserid();
+		String mainpath="E:\\SpringTool\\exp-manager\\src\\main\\resources\\static\\images";
+		File folder = new File(mainpath,userid+"");
+		folder.mkdir();
+		File newfile = new File(folder,file.getOriginalFilename());
+		try {
+			byte []b = file.getBytes();
+			FileOutputStream fos = new FileOutputStream(newfile);
+			fos.write(b);
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ProfileBean profile = new ProfileBean();
+		profile.setUserid(userid);
+		profile.setUrl("images/"+userid+"/"+file.getOriginalFilename());
+		profile.setActive(false);
+		
+		   profileDao.setimage(profile);
+		 		return "redirect:/listimage";
+	}
+	@GetMapping("/listimage")
+	public String listimage(HttpSession session,Model model) {
+		int userid = ((UserBean) session.getAttribute("user")).getUserid();
+		List<ProfileBean> images = profileDao.listimage(userid);
+		model.addAttribute("images",images);
+		return "listimage";
+	}
+	
+	
 	@GetMapping("/navcustomer")
 	public String navcustomer() {
+		
 		return"navcustomer";
 	}
 	@GetMapping("/logout")

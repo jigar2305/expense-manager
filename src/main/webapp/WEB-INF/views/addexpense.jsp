@@ -180,7 +180,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 						</select>
 					</div>
-					<input type="submit" class="btn btn-primary" value="Signup">
+					<input type="submit" class="btn btn-primary" value="add">
 				</f:form>
 			</div>
 

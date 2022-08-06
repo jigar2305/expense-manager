@@ -2,6 +2,7 @@ package com.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -134,9 +135,14 @@ public class ExpenseController {
 	@GetMapping("/listexpense")
 	public String listexpense(HttpSession session,Model model) {
 		int userid = ((UserBean) session.getAttribute("user")).getUserid();
+		LocalDate today = LocalDate.now();
+		LocalDate beginDate =  today.withDayOfMonth(1);
+		LocalDate endDate = today.withDayOfMonth(today.lengthOfMonth());
 
-		List<ListexpenseBean> espenses = expenseDao.expenselist(userid);
+		List<ListexpenseBean> espenses = expenseDao.expenselist(userid,beginDate,endDate);
 		model.addAttribute("espenses", espenses);
+		model.addAttribute("begindate",beginDate);
+		model.addAttribute("enddate",endDate);
 		return "listexpense";
 				
 	}

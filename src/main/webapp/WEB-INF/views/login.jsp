@@ -20,6 +20,7 @@
 				<div style="text-align: center;">
 					<h3>login</h3>
 				</div>
+				${msg}
 				<f:form modelAttribute="loginBean" action="login" method="post">
 					<div class="form-group">
 						<label>email</label>

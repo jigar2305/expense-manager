@@ -41,9 +41,7 @@ public class FinanceController {
 	public String savebalance(@ModelAttribute("balance") @Valid BalanceBean balance, BindingResult result,
 			HttpSession session, Model model) {
 		UserBean userBean = (UserBean) session.getAttribute("user");
-		System.out.println(userBean);
 		int userid = userBean.getUserid();
-		System.out.println(userid);
 		balance.setUserid(userid);
 		if (result.hasErrors()) {
 			model.addAttribute("balance", balance);
@@ -102,7 +100,7 @@ public class FinanceController {
 	public String listaccount(ExpenseBean expense, Model model, HttpSession session) {
 		int userid = ((UserBean) session.getAttribute("user")).getUserid();
 		List<CashBean> cash = dao.getcash(userid);
-		model.addAttribute("cash", cash);
+		model.addAttribute("cashs", cash);
 		List<PaytmBean> paytm = dao.getpaytm(userid);
 		model.addAttribute("paytm", paytm);
 		List<CreditcardBean> cc = dao.getcreditcard(userid);
@@ -111,14 +109,7 @@ public class FinanceController {
 		model.addAttribute("debitcard", dc);
 		return "Listaccount";
 	}
+
 	
-	
-	@PostMapping("/upadtecredit")
-	public String updatecredit(@Valid CreditcardBean creditcardBean) {
-		
-		
-		return "redirect:/listaccount";
-		
-	}
 	
 }
